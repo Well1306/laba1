@@ -15,9 +15,12 @@ namespace laba1
         }
         public bool Add(DataItem newItem)
         {
-            bool b = !L.Contains(newItem);
-            if (b) L.Add(newItem);
-            return b;
+            foreach (DataItem i in L)
+            {
+                if (newItem.x == i.x && newItem.y == i.y) return false;
+            }
+            L.Add(newItem);
+            return true;
         }
         public int AddDefaults(int nItems, FdblComplex F)
         {

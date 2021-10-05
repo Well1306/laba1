@@ -8,9 +8,9 @@ namespace laba1
 {
     class DataItem
     {
-        public double x;
-        public double y;
-        public System.Numerics.Complex z;
+        public double x { get; set; }    
+        public double y { get; set; }
+        public System.Numerics.Complex z { get; set; }
 
         public DataItem(double x1, double y1, System.Numerics.Complex z1) 
         {

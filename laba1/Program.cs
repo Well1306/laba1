@@ -8,7 +8,7 @@ namespace laba1
         {
             string f = "f3";
             DateTime date = DateTime.Now;
-            V1DataArray a1 = new("a1", date, 2, 2, 0.5, 1, Methods.M1);
+            V1DataArray a1 = new("a1", date, 2, 1, 2, 1, Methods.M1);
             Console.WriteLine(a1.ToLongString(f));
             Console.WriteLine('\n');
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace laba1
 {
+    [Serializable]
     class DataItem
     {
         public double x { get; set; }    

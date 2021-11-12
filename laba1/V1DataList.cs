@@ -3,15 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace laba1
 {
+    [Serializable]
     class V1DataList : V1Data
     {
         public List<DataItem> L { get; }
         public V1DataList(string S1, DateTime D1) : base(S1, D1)
         {
             L = new List<DataItem>();
+        }
+        public override IEnumerator<DataItem> GetEnumerator()
+        {
+            return L.GetEnumerator();
         }
         public bool Add(DataItem newItem)
         {
@@ -60,6 +67,52 @@ namespace laba1
             foreach (DataItem i in L)
                 res += "\n" + i.ToLongString(format);
             return res;
+        }
+
+        public bool SaveBinary(string filename)
+        {
+            FileStream file = null;
+            try
+            {
+                using (file = new FileStream(filename, FileMode.OpenOrCreate))
+                {
+                    BinaryFormatter form = new BinaryFormatter();
+                    form.Serialize(file, this);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                return false;
+            }
+            finally
+            {
+                if (file != null) file.Close();
+            }
+        }
+
+        public bool LoadBinary(string filename, ref V1DataList v1)
+        {
+            BinaryReader file = null;
+            try
+            {
+                using (FileStream fs = new FileStream(filename, FileMode.Open))
+                {
+                    BinaryFormatter form = new BinaryFormatter();
+                    v1 = (V1DataList)form.Deserialize(fs);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                return false;
+            }
+            finally
+            {
+                if (file != null) file.Close();
+            }
         }
     }
 }

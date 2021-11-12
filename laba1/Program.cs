@@ -4,37 +4,78 @@ namespace laba1
 {
     class Program
     {
-        static void Main(string[] args)
+        static void SaveLoad()
         {
-            string f = "f3";
-            DateTime date = DateTime.Now;
-            V1DataArray a1 = new("a1", date, 2, 1, 2, 1, Methods.M1);
-            Console.WriteLine(a1.ToLongString(f));
-            Console.WriteLine('\n');
+            Console.WriteLine("TEST SAVE AND LOAD");
+            V1DataArray A = new("TestArray", DateTime.Now, 2, 2, 1, 1, Methods.M1);
+            A.SaveAsText("testarray.txt");
+            V1DataArray A1 = null;
+            A.LoadAsText("testarray.txt", ref A1);
+            Console.WriteLine("Original:");
+            Console.WriteLine(A.ToLongString("f3"));
+            Console.WriteLine("Saved:");
+            Console.WriteLine(A1.ToLongString("f3"));
 
-            V1DataList l1 = (V1DataList) a1;
-            Console.WriteLine(l1.ToLongString(f));
-            Console.WriteLine('\n');
-
-            Console.WriteLine("Count: " + l1.Count.ToString());
-            Console.WriteLine("Avg value: " + l1.AverageValue.ToString());
-            Console.WriteLine('\n');
-
-            V1DataArray a2 = new("a2", date, 3, 3, 1, 0.1, Methods.M1);
-            V1MainCollection m = new();
-            m.Add(a2);
-            m.Add(l1);
-            Console.WriteLine(m.ToLongString(f));
-            //Console.WriteLine('\n');
-
-            Console.WriteLine("Collection count: " + m.Count.ToString());
-
-            for(int i = 0; i < m.Count; ++i)
+            V1DataList L = new("TestList", DateTime.Now);
+            L.AddDefaults(5, Methods.M1);
+            L.SaveBinary("testlist.txt");
+            V1DataList L1 = null;
+            L.LoadBinary("testlist.txt", ref L1);
+            Console.WriteLine("Original:");
+            Console.WriteLine(L.ToLongString("f3"));
+            Console.WriteLine("Saved:");
+            Console.WriteLine(L1.ToLongString("f3"));
+            Console.WriteLine("\n\n\n");
+        }
+        static void LINQ()
+        {
+            Console.WriteLine("TEST LINQ");
+            V1MainCollection M = new();
+            V1MainCollection M1 = new();
+            V1DataList L = new("ListForLINQ", DateTime.Parse("01.01.2020 00:00:00"));
+            L.AddDefaults(5, Methods.M1);
+            M.Add(L);
+            V1DataList L1 = new("ListForLINQ1", DateTime.Now);
+            M.Add(L1);
+            V1DataList L2 = new("ListForLINQ2", DateTime.Now);
+            L2.AddDefaults(2, Methods.M1);
+            M.Add(L2);
+            V1DataArray A = new("ArrayForLINQ", DateTime.Now, 2, 2, 1, 1, Methods.M1);
+            M.Add(A);
+            V1DataArray A1 = new("ArrayForLINQ1", DateTime.Now);
+            M.Add(A1);
+            Console.WriteLine(M.ToLongString("f3"));
+            Console.WriteLine("\nMIN DATE: " + M.MinDate);
+            Console.WriteLine("\nSORT:");
+            if (M.SortAvg is not null)
             {
-                Console.WriteLine($"Collection {i}:");
-                Console.WriteLine("\tCount: " + m[i].Count.ToString());
-                Console.WriteLine("\tAvg value: " + m[i].AverageValue.ToString());
+                foreach (var V in M.SortAvg)
+                {
+                    Console.WriteLine(V + " " + V.AverageValue);
+                }
             }
+            if (M1.SortAvg is null)
+            {
+                Console.WriteLine("M1 is empty");
+            }
+            Console.WriteLine("\nMAX MEANSUREMENTS:");
+            if (M.MaxMeasurements is not null)
+            {
+                foreach (var V in M.MaxMeasurements)
+                {
+                    Console.WriteLine(V);
+                }
+            }
+            if (M1.MaxMeasurements is null)
+            {
+                Console.WriteLine("M1 is empty");
+            }
+            Console.WriteLine("\n\n\n");
+        }
+        static void Main(string[] args)
+        { 
+            SaveLoad();
+            LINQ();
         }
     }
 }

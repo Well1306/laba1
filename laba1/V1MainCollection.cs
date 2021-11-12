@@ -22,8 +22,8 @@ namespace laba1
             get => D[index];
         }
         public bool Contains(string ID)
-        { 
-            foreach(V1Data i in D)
+        {
+            foreach (V1Data i in D)
             {
                 if (i.S == ID) return true;
             }
@@ -41,7 +41,7 @@ namespace laba1
         public string ToLongString(string format)
         {
             string res = "";
-            foreach(V1Data i in D)
+            foreach (V1Data i in D)
             {
                 res += i.ToLongString(format) + '\n';
             }
@@ -55,6 +55,42 @@ namespace laba1
                 res += i.ToString() + '\n';
             }
             return res;
+        }
+
+        //LINQ
+
+        public DateTime? MinDate
+        {
+            get
+            {
+                try { return (from i in D select i.D).Min(); }
+                catch (Exception) { return null; }
+            }
+        }
+
+        public IEnumerable<V1Data> SortAvg
+        {
+            get
+            {
+                if (D.Count == 0) return null;
+                return D.Where(i => i is V1DataList).OrderByDescending(i => i.AverageValue);
+            }
+        }
+
+        public IEnumerable<V1Data> MaxMeasurements
+        {
+            get 
+            {
+                try
+                {
+                    int k = D.Max(i => i.Count);
+                    return D.Where(i => i.Count == k);
+                }
+                catch(Exception)
+                {
+                    return null;
+                }
+            }
         }
     }
 }

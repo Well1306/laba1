@@ -116,7 +116,7 @@ namespace laba1
             }
         }
 
-        public bool LoadAsText(string filename, ref V1DataArray v1)
+        public static bool LoadAsText(string filename, ref V1DataArray v1)
         {
             StreamReader file = null;
             try

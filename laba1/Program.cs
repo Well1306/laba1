@@ -10,7 +10,7 @@ namespace laba1
             V1DataArray A = new("TestArray", DateTime.Now, 2, 2, 1, 1, Methods.M1);
             A.SaveAsText("testarray.txt");
             V1DataArray A1 = null;
-            A.LoadAsText("testarray.txt", ref A1);
+            V1DataArray.LoadAsText("testarray.txt", ref A1);
             Console.WriteLine("Original:");
             Console.WriteLine(A.ToLongString("f3"));
             Console.WriteLine("Saved:");
@@ -20,7 +20,7 @@ namespace laba1
             L.AddDefaults(5, Methods.M1);
             L.SaveBinary("testlist.txt");
             V1DataList L1 = null;
-            L.LoadBinary("testlist.txt", ref L1);
+            V1DataList.LoadBinary("testlist.txt", ref L1);
             Console.WriteLine("Original:");
             Console.WriteLine(L.ToLongString("f3"));
             Console.WriteLine("Saved:");

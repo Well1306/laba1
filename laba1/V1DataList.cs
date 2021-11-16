@@ -92,7 +92,7 @@ namespace laba1
             }
         }
 
-        public bool LoadBinary(string filename, ref V1DataList v1)
+        public static bool LoadBinary(string filename, ref V1DataList v1)
         {
             BinaryReader file = null;
             try
